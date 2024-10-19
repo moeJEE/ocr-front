@@ -199,7 +199,7 @@ export default function Chat() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 className="flex-1 border-none rounded-full p-2 bg-gray-100 outline-none"
-                placeholder="Votre Message ..."
+                placeholder="Votre message ... "
                 style={{ minHeight: '40px' }}
               />
               <button
