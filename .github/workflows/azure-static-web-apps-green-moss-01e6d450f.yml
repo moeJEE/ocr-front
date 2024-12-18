@@ -15,28 +15,43 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
+      # Checkout the repository
       - uses: actions/checkout@v3
         with:
           submodules: true
           lfs: false
 
+      # Set up Node.js (use your desired version, e.g., 20)
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20' # Ensure this matches your project's Node.js version
+          node-version: '20' # Ensure this matches your local Node.js version
 
+      # Cache node modules to speed up builds
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      # Install Dependencies with --legacy-peer-deps
       - name: Install Dependencies
         run: npm install --legacy-peer-deps
 
-      - name: Build And Deploy
-        id: builddeploy
+      # Build the React app
+      - name: Build
+        run: npm run build
+
+      # Deploy to Azure Static Web Apps
+      - name: Deploy to Azure Static Web App
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
-          repo_token: ${{ secrets.GITHUB_TOKEN }} # Optional if you don't need it
+          repo_token: ${{ secrets.GITHUB_TOKEN }} # Optional if not needed
           action: "upload"
           app_location: "/" # Path to the root of your project
-          api_location: ""
+          api_location: "" # Path to your Azure Functions (if any)
           output_location: "build" # Path to your React build output
-          app_build_command: "npm install --legacy-peer-deps && npm run build" # Add --legacy-peer-deps here
-          skip_app_build: false
+          skip_app_build: true # Skip Oryx build step
