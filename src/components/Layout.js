@@ -6,7 +6,7 @@ export default function Layout({ children }) {
 
   const handleChatSelect = (chatId) => {
     setSelectedChatId(chatId);
-    // Vous pouvez ajouter ici toute logique supplémentaire nécessaire lors de la sélection d'un chat
+    // Additional logic can be added here as needed
   };
 
   return (
@@ -14,6 +14,16 @@ export default function Layout({ children }) {
       <Header />
       <div className="flex flex-1 overflow-hidden">
         <div className="flex-1 p-4 flex flex-col overflow-hidden bg-white">
+          {/* Example chat selection */}
+          <div className="chat-list">
+            {/* Replace with your actual chat data */}
+            {[1, 2, 3].map(chatId => (
+              <button key={chatId} onClick={() => handleChatSelect(chatId)}>
+                Chat {chatId}
+              </button>
+            ))}
+          </div>
+          
           {React.Children.map(children, child =>
             React.cloneElement(child, { selectedChatId })
           )}
