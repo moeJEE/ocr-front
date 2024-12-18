@@ -52,5 +52,5 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Optional if not needed
           action: "upload"
           app_location: "/" # Path to the root of your project
-          api_location: "https://docprocessingfunc.azurewebsites.net" # Path to your Azure Functions (if any)
+          api_location: "https://docprocessingfunc.azurewebsites.net/api" # Path to your Azure Functions (with /api suffix)
           output_location: "build" # Path to your React build output
