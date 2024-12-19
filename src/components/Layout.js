@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Header from './Header';
 
 export default function Layout({ children }) {
-  const [selectedChatId, setSelectedChatId] = useState(null);
+  const [selectedChatId] = useState(null);
 
   // const handleChatSelect = (chatId) => {
   //   setSelectedChatId(chatId);
